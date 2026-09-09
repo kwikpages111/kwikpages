@@ -243,7 +243,7 @@
     background: var(--beige-surface);
     border-bottom: 1px solid var(--beige-border);
   }
-  .mock-dot { width: 10px; height: 10px; border-radius: 50%; }
+  .mock-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
   .mock-dot:nth-child(1) { background: #FF5F56; }
   .mock-dot:nth-child(2) { background: #FFBD2E; }
   .mock-dot:nth-child(3) { background: #27C93F; }
@@ -258,6 +258,10 @@
     flex: 1;
     text-align: center;
     border: 1px solid var(--beige-border);
+    /* Prevents long URLs from breaking the box on mobile */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
   .mock-body { padding: 24px; }
   .mock-nav {
@@ -401,7 +405,6 @@
     position: relative;
     overflow: hidden;
   }
-  /* Decorative background element for pricing */
   .price-panel::after {
     content: '';
     position: absolute;
@@ -480,6 +483,7 @@
   .field { display: flex; flex-direction: column; gap: 8px; }
   .field.full { grid-column: 1 / -1; }
   label { font-size: 14px; font-weight: 600; color: var(--navy-dark); }
+  
   input, textarea {
     font-family: 'Inter', sans-serif;
     font-size: 16px;
@@ -489,6 +493,7 @@
     background: var(--beige-bg);
     color: var(--text-dark);
     transition: all 0.3s ease;
+    width: 100%; /* Fixes form field overflow */
   }
   input:focus, textarea:focus { 
     border-color: var(--navy-light); 
@@ -540,6 +545,16 @@
     .wrap { padding-left: 24px; padding-right: 24px; }
     .hero h1 { font-size: 36px; }
     .nav-row { padding: 16px 24px; }
+    
+    /* Mockup adjustments to prevent horizontal overflow */
+    .mock-body { padding: 16px; }
+    .mock-grid { 
+      grid-template-columns: 1fr 1fr; 
+      gap: 10px;
+    }
+    .mock-card:last-child {
+      grid-column: 1 / -1;
+    }
     
     /* Mobile Menu Implementation */
     .nav-links {
@@ -596,7 +611,6 @@
 
 <main id="top">
 
-  <!-- ---------- Hero ---------- -->
   <section class="hero wrap reveal">
     <div>
       <h1>Your business is open.<br>Your website should say so.</h1>
@@ -607,7 +621,6 @@
       </div>
     </div>
 
-    <!-- Enhanced Floating Browser Mockup -->
     <div class="mock" aria-hidden="true">
       <div class="mock-bar">
         <span class="mock-dot"></span><span class="mock-dot"></span><span class="mock-dot"></span>
@@ -635,7 +648,6 @@
     </div>
   </section>
 
-  <!-- ---------- Process ---------- -->
   <section id="process" class="wrap rule-top reveal">
     <div class="process-head">
       <h2>From nothing to live, in three steps</h2>
@@ -659,7 +671,6 @@
     </div>
   </section>
 
-  <!-- ---------- Included + Pricing ---------- -->
   <section id="included" class="wrap rule-top">
     <div class="split">
       <div class="included reveal">
@@ -691,7 +702,6 @@
     </div>
   </section>
 
-  <!-- ---------- Founder Note ---------- -->
   <section class="wrap rule-top reveal">
     <div class="note">
       <h2>Why this instead of a big agency</h2>
@@ -701,14 +711,12 @@
     </div>
   </section>
 
-  <!-- ---------- Contact Form ---------- -->
   <section id="contact" class="wrap rule-top reveal">
     <div class="contact-head">
       <h2>Tell me about your business</h2>
       <p>Fill this in and I'll reply with a straightforward quote — usually within a day.</p>
     </div>
 
-    <!-- The exact Web3Forms action and access_key from the original file are preserved -->
     <form action="https://api.web3forms.com/submit" method="POST">
       <input type="hidden" name="access_key" value="6080b43d-f029-4c38-a24a-4ca9aa4f8848">
       
@@ -757,7 +765,6 @@
   </div>
 </footer>
 
-<!-- JavaScript for Scroll Animations & Mobile Menu -->
 <script>
   document.addEventListener('DOMContentLoaded', () => {
     // 1. Scroll Reveal Animations
@@ -792,7 +799,6 @@
 
     menuBtn.addEventListener('click', toggleMenu);
     
-    // Close mobile menu when a link is clicked
     navItems.forEach(item => {
       item.addEventListener('click', () => {
         if (navLinks.classList.contains('active')) {
